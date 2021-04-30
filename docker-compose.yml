@@ -1,0 +1,31 @@
+version: "3.9"
+   
+services:
+  db:
+    image: postgres
+    ports: 
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - nt
+  
+  quarkus-hibernate-orm-mybatis-3:
+    image: quarkus-hibernate-orm-mybatis-3
+    ports:
+      - 8080:8080
+    networks:
+      - nt
+    command: sh -c "/work/wait && /work/application -Dquarkus.http.host=0.0.0.0 -Djavax.xml.accessExternalDTD=all"
+    environment:
+      - quarkus.datasource.jdbc.url=jdbc:postgresql://db:5432/postgres
+      - WAIT_HOSTS=db:5432
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=10
+      - WAIT_HOST_CONNECT_TIMEOUT=10
+
+networks:
+  nt:
+    driver: bridge
