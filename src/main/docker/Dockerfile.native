@@ -28,4 +28,4 @@ RUN chmod +x /work/wait
 EXPOSE 8080
 USER 1001
 
-CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
+CMD ["./application", "-Dquarkus.http.host=0.0.0.0", "-Djavax.xml.accessExternalDTD=all"]
